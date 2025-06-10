@@ -12,22 +12,26 @@ const client = new MongoClient(uri, {
   },
 });
 
-async function connectDB() {
-return client.connect()
+// databas ecollection
+const db = client.db("gen-art-ai-db");
+const imageCollection = db.collection("images");
 
-//   try {
-//      Connect the client to the server	(optional starting in v4.7)
-//     await client.connect();
-//      Send a ping to confirm a successful connection
-//     await client.db("admin").command({ ping: 1 });
-//     console.log(
-//       "Pinged your deployment. You successfully connected to MongoDB!"
-//     );
-//   } finally {
-//      Ensures that the client will close when you finish/error
-//     await client.close();
-//   }
+async function connectDB() {
+  return client.connect();
+
+  //   try {
+  //      Connect the client to the server	(optional starting in v4.7)
+  //     await client.connect();
+  //      Send a ping to confirm a successful connection
+  //     await client.db("admin").command({ ping: 1 });
+  //     console.log(
+  //       "Pinged your deployment. You successfully connected to MongoDB!"
+  //     );
+  //   } finally {
+  //      Ensures that the client will close when you finish/error
+  //     await client.close();
+  //   }
 }
 connectDB().catch(console.dir);
 
-module.exports=connectDB
+module.exports = { connectDB, imageCollection };
