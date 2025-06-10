@@ -3,6 +3,7 @@ const cors = require("cors");
 const logger = require("./middlewares/logger");
 const getImageBuffer = require("./utils/ai/getImageBuffer");
 const generateImageUrl = require("./utils/ai/generateImageUrl");
+const { imageCollection } = require("./utils/connectDB");
 const app = express();
 
 // middlewares
@@ -24,18 +25,31 @@ app.post("/create-image", async (req, res) => {
   }
 
   // 1 + 2 - create a final prompt generate image buffer
+  try {
+    //3- upload image and get url
+    const buffer = await getImageBuffer(prompt, category);
+    const data = await generateImageUrl(buffer, prompt);
+    res.send(data);
+    //4- insert data in mongodb
+    const document = {
+      email,
+      userName,
+      userImg,
+      prompt,
+      category,
+      thumb_img: data.thumb.url,
+      medium_img: data.medium.url,
+      original_img: data.url,
+      createdAt: new Date().toISOString(),
+    };
 
-  const buffer = await getImageBuffer(prompt, category);
-  const data = await generateImageUrl(buffer, prompt);
-
-  res.send(data);
-  //3- upload image and get url
-
-  //4- insert data in mongodb
-
-  // 5- send response
-
-  res.send("hello");
+    const result = await imageCollection.insertOne(document);
+    console.log(document)
+    // 5- send response
+    res.send({ ...result, url: document.original_img });
+  } catch (err) {
+    res.status(500).send(err);
+  }
 });
 
 //*
