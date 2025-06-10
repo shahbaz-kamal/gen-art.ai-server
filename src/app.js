@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const logger = require("./middlewares/logger");
+const getImageBuffer = require("./utils/ai/getImageBuffer");
 const app = express();
 
 // middlewares
@@ -21,17 +22,16 @@ app.post("/create-image", async (req, res) => {
     return;
   }
 
+  // 1 + 2 - create a final prompt generate image buffer
 
-  // 1- create a final prompt
-
-  // 2 -generate image buffer
+  const buffer = await getImageBuffer(prompt, category);
 
   //3- upload image and get url
 
   //4- insert data in mongodb
 
   // 5- send response
-  
+
   res.send("hello");
 });
 
