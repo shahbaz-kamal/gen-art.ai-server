@@ -1,10 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const logger = require("./middlewares/logger");
-const getImageBuffer = require("./utils/ai/getImageBuffer");
-const generateImageUrl = require("./utils/ai/generateImageUrl");
-const { imageCollection } = require("./utils/connectDB");
-const imageRouter = require("./router/imageRoutes");
+const imageRouter = require("./router/image.route");
+
 const app = express();
 
 // middlewares
@@ -12,9 +10,12 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(logger);
-//*playground
 
-app.use("/api/image", imageRouter);
+// image router
+
+app.use("/api/v1/image", imageRouter);
+
+//*playground
 
 //*
 app.get("/", (req, res) => {
