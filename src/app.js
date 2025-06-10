@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const logger = require("./middlewares/logger");
 const imageRouter = require("./router/image.route");
+const commentRouter = require("./router/comment.route");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(logger);
 // image router
 
 app.use("/api/v1/image", imageRouter);
+app.use("/api/v1/comment", commentRouter);
 
 //*playground
 

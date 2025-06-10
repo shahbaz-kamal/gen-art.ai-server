@@ -15,6 +15,7 @@ const client = new MongoClient(uri, {
 // databas ecollection
 const db = client.db("gen-art-ai-db");
 const imageCollection = db.collection("images");
+const commentCollection = db.collection("comments");
 
 async function connectDB() {
   return client.connect();
@@ -34,4 +35,4 @@ async function connectDB() {
 }
 connectDB().catch(console.dir);
 
-module.exports = { connectDB, imageCollection };
+module.exports = { connectDB, imageCollection, commentCollection };
