@@ -1,16 +1,16 @@
-const express = require("express");
-const cors = require("cors");
-const port = 5000;
+const app = require("./src/app");
+const connectDB = require("./src/utils/connectDB");
 
-const app = express();
+require("dotenv").config();
+const port = process.env.PORT || 5000;
 
-app.use(express.json());
-app.use(cors());
-
-app.get("/", (req, res) => {
-  res.send("Gen ai server is running");
-});
-
-app.listen(port, () => {
-  console.log(`✅ GEN ART.AI is running on port : ${port}`);
-});
+connectDB()
+  .then(() => {
+    app.listen(port, () => {
+      console.log(`🚩 GEN ART.AI is running on port : ${port}`);
+      console.log(`✅ Connected to MONGODB`);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
